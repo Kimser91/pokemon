@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <div id="app">
+
+  </div>
+
+
+  <script>
+    let Pikachu = {
+      name: "Pikachu",
+      health: 100,
+      Image: "pikachu.png",
+      level: 22,
+    };
+
+    let Charmander = {
+      name: "Charmander",
+      health: 10000,
+      Image: "Charmander.png",
+      level: 12,
+    };
+
+    let Bulbsaur = {
+      name: "Bulbasaur",
+      health: 500,
+      Image: "Bulbasaur.png",
+      level: 100,
+   
+    };
+
+    let Squirtle = {
+      name: "Squirtle",
+      health: 150,
+      Image: "squirtle.png",
+      level: 30,
+    };
+
+    let Oranguru = {
+      name: "Oranguru",
+      health: 150,
+      Image: "oranguru.png",
+      level: 30,
+    }
+
+    let pokemon = [Pikachu, Charmander, Bulbsaur, Squirtle];
+    let coughtPokemon = [];
+    let seenPokemon = [];
+    let showPokemon = '';
+    let myPokemon = Pikachu;
+    let html = document.getElementById('app')
+
+
+
+    updateView()
+
+    function updateView(){
+      html.innerHTML = /*html*/`
+      <div><img src="${myPokemon.Image}" class="playerAndPokemonImg">
+        <li>${myPokemon.name}
+        <li>lvl: ${myPokemon.level}
+        
+        </div>
+      <div><img src="player.jpg" class="playerAndPokemonImg"></div>
+      <button id="" onclick="WalkAround()">Start your journey</button>
+      <button id="" onclick="changeMyPokemon()">Inventory</button>
+      <button id="" onclick="pokedex()">Pokedex</button>
+      `;
+      console.log(myPokemon)
+    }
+
+
+    function WalkAround(){
+      let randomIndex = Math.floor(Math.random() * 10)
+
+      if (randomIndex <5) {
+        let randomIndex = Math.floor(Math.random() * pokemon.length) 
+            showPokemon = pokemon[randomIndex];
+           
+            html.innerHTML = /*html*/`
+       
+        <div>you found ${showPokemon.name} <img src="${showPokemon.Image}" class="playerAndPokemonImg"> try catch it!!</div>
+        <button id="" onclick="WalkAround()">Try look for more!!</button>
+        <button id="" onclick="catchPokemon()">Throw a Pokeball</button>
+        <div>
+        <div><img src="${myPokemon.Image}" class="playerAndPokemonImg">   
+          <li>${myPokemon.name}
+            <li>${myPokemon.level}
+              <li>${myPokemon.health}
+        </div>
+        `;
+        pushToPokeDex()
+      }
+
+      else {
+        html.innerHTML = /*html*/`
+        <div>You found nothing</div>
+        <button onclick="WalkAround()">Continue walking</button>
+        `;
+      }
+    }
+
+    function myCoughtPokemonView(){
+      html.innerHTML = /*html*/`
+          <h1> You cought: ${coughtPokemon[coughtPokemon.length - 1].name} </h1>
+          <img src="${coughtPokemon[coughtPokemon.length - 1].Image}"
+               class="playerAndPokemonImg">         
+          <li> Health: ${coughtPokemon[coughtPokemon.length - 1].health} </li>
+          <li> Level:  ${coughtPokemon[coughtPokemon.length - 1].level} </li>
+      <button onclick="WalkAround()">Continue walking</button>
+      <button id="" onclick="changeMyPokemon()">Inventory</button>
+      `;
+      
+    }
+
+
+    function catchPokemon(){
+      let randomIndex = Math.floor(Math.random() * 10)
+
+      if(randomIndex <7){
+        
+        myCoughtPokemon()
+        myCoughtPokemonView()
+        
+      }
+
+      else {
+        html.innerHTML = /*html*/`
+        <div>no pokemon for you</div> 
+        <button onclick="WalkAround()">Try look for more!!</button>`
+       
+      }
+    }
+    function pushToPokeDex(){
+      seenPokemon.push(showPokemon)
+      
+    }
+
+    function pokedex(){
+      html.innerHTML = /*html*/`
+      <h1> You cought: ${seenPokemon[seenPokemon.length - 1].name} </h1>
+          <img src="${seenPokemon[seenPokemon.length - 1].Image}"
+               class="playerAndPokemonImg">          
+          <li> Health: ${seenPokemon[seenPokemon.length - 1].health} </li>
+          <li> Level:  ${seenPokemon[seenPokemon.length - 1].level} </li>
+      <button onclick="WalkAround()">Continue walking</button>`;
+      
+    }
+
+    function myCoughtPokemon(){
+      coughtPokemon.push(showPokemon)
+      
+    }
+
+    function changeMyPokemon(){
+      html.innerHTML = /*html*/`
+      <div>${showPokemonInventory()}</div>
+      <div>My pokemon:<img src="${myPokemon.Image}" class="playerAndPokemonImg"> </div>
+      <button onclick="updateView()">Return</button>
+      `;
+      console.log(coughtPokemon)
+    }
+  
+    function showPokemonInventory(){
+      let pokemonList = '';
+      for (let i = 0; i < coughtPokemon.length; i++) {
+        pokemonList += `<div> 
+          <img src="${coughtPokemon[i].Image}" class="playerAndPokemonImg"> 
+          <li>  Name:   ${coughtPokemon[i].name} 
+          <li>  Health: ${coughtPokemon[i].health} 
+          <li>  Level:  ${coughtPokemon[i].level} 
+          </div>`
+      }
+
+      return pokemonList;
+      console.log(pokemonList)
+    }
+
+   
+  </script>
+  
+  <style>
+#app{
+display: flex;
+align-items: center;
+justify-content: center;
+width: 100vw;
+height: 100vh;
+flex-direction: column;
+
+}
+
+.playerAndPokemonImg {
+  width: 200px;
+  height: 200px;
+}
+
+li{
+  font-size: larger;
+  font-weight: bold;
+}
+
+body{
+  user-select: none;
+
+  
+}
+
+  </style>
+</body>
+</html>
